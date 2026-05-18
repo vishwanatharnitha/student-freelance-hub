@@ -1,0 +1,9 @@
+{
+  "name": "student-freelance-hub-root",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "install": "npm install --prefix frontend && npm install --prefix backend"
+  },
+  "dependencies": {}
+}
