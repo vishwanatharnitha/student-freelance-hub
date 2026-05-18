@@ -15,7 +15,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6"
+              className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6"
             >
               Where Student Talent Meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-indigo-600">Opportunity</span>
             </motion.h1>

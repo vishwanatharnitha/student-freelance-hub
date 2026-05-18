@@ -34,14 +34,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-slate-50 px-4 py-12">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-slate-50 px-4 py-8 sm:py-12">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-8 sm:p-10"
+        className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10"
       >
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Welcome back</h2>
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Welcome back</h2>
           <p className="text-slate-500 mt-2">Enter your details to access your account</p>
         </div>
 

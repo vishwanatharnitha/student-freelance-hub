@@ -5,9 +5,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
     @apply bg-slate-50 text-slate-900;
+    overflow-x: hidden;
   }
 }
 

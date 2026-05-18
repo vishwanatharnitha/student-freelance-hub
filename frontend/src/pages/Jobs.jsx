@@ -69,9 +69,9 @@ const Jobs = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header & Search */}
-        <div className="mb-10 text-center max-w-2xl mx-auto">
-          <h1 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Find Freelance Work</h1>
-          <p className="text-slate-600 mb-8 text-lg">Browse thousands of opportunities perfect for students.</p>
+        <div className="mb-8 sm:mb-10 text-center max-w-2xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 sm:mb-4 tracking-tight">Find Freelance Work</h1>
+          <p className="text-slate-600 mb-6 sm:mb-8 text-base sm:text-lg">Browse thousands of opportunities perfect for students.</p>
           
           <div className="relative flex items-center w-full max-w-xl mx-auto">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -166,7 +166,7 @@ const Jobs = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden"
+            className="bg-white rounded-3xl shadow-2xl max-w-lg w-[95%] sm:w-full max-h-[90vh] overflow-y-auto"
           >
             <div className="p-6 md:p-8">
               <div className="flex justify-between items-start mb-6">
