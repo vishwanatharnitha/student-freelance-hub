@@ -1,6 +1,7 @@
 {
   "name": "student-freelance-hub-root",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "npm run build --prefix frontend",
     "install": "npm install --prefix frontend && npm install --prefix backend"
