@@ -14,8 +14,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to Database
-connectDB();
+// Connect to Database middleware
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    res.status(503).json({ message: "Database connection failed", error: error.message });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
