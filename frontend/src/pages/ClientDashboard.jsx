@@ -8,7 +8,7 @@ const ClientDashboard = () => {
   const { user } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Post Job Form State
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -58,7 +58,7 @@ const ClientDashboard = () => {
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome, {user.name}</h1>
           <p className="text-slate-500">Manage your posted jobs and find great student talent.</p>
         </div>
-        <button 
+        <button
           onClick={() => setShowForm(!showForm)}
           className="bg-primary-600 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-primary-700 shadow-md hover:shadow-lg transition-all flex items-center gap-2"
         >
@@ -67,7 +67,7 @@ const ClientDashboard = () => {
       </div>
 
       {showForm && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 mb-8 overflow-hidden"
@@ -83,7 +83,7 @@ const ClientDashboard = () => {
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none"
                   placeholder="e.g. React Native Developer for MVP"
                   value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 />
               </div>
               <div>
@@ -94,11 +94,11 @@ const ClientDashboard = () => {
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none"
                   placeholder="e.g. Web Development"
                   value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Budget ($)</label>
               <input
@@ -108,7 +108,7 @@ const ClientDashboard = () => {
                 className="w-full md:w-1/2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none"
                 placeholder="500"
                 value={formData.budget}
-                onChange={(e) => setFormData({...formData, budget: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
               />
             </div>
 
@@ -120,7 +120,7 @@ const ClientDashboard = () => {
                 className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none"
                 placeholder="Describe the project requirements, deliverables, and timeline..."
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               ></textarea>
             </div>
 
@@ -137,7 +137,7 @@ const ClientDashboard = () => {
       )}
 
       <h2 className="text-xl font-bold text-slate-900 mb-6">Your Posted Jobs</h2>
-      
+
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
@@ -147,7 +147,7 @@ const ClientDashboard = () => {
           <Briefcase className="h-12 w-12 text-slate-300 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-slate-900 mb-1">No jobs posted yet</h3>
           <p className="text-slate-500 mb-6">Post your first job to start receiving applications from students.</p>
-          <button 
+          <button
             onClick={() => setShowForm(true)}
             className="bg-primary-50 text-primary-700 px-6 py-2.5 rounded-xl font-medium hover:bg-primary-100 transition-colors"
           >
@@ -157,7 +157,7 @@ const ClientDashboard = () => {
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
           {jobs.map((job) => (
-            <motion.div 
+            <motion.div
               key={job._id}
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -169,7 +169,7 @@ const ClientDashboard = () => {
                   {job.status}
                 </span>
               </div>
-              
+
               <div className="flex flex-wrap gap-4 mb-5 text-sm text-slate-600">
                 <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
                   <DollarSign size={16} className="text-slate-400" />
@@ -180,11 +180,11 @@ const ClientDashboard = () => {
                   <span className="font-medium text-slate-700">{job.category}</span>
                 </div>
               </div>
-              
+
               <p className="text-slate-600 text-sm line-clamp-2 mb-6">
                 {job.description}
               </p>
-              
+
               <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
                 <div className="flex items-center gap-2 text-sm text-slate-500">
                   <Users size={16} />

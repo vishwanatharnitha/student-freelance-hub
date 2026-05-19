@@ -17,7 +17,7 @@ const Login = () => {
     setLoading(true);
 
     const result = await login(email, password);
-    
+
     if (result.success) {
       // It will redirect automatically based on Navbar or App state, but let's force it
       const userStr = localStorage.getItem('userInfo');
@@ -35,7 +35,7 @@ const Login = () => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-slate-50 px-4 py-8 sm:py-12">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10"

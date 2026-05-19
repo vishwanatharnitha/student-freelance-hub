@@ -43,7 +43,7 @@ const StudentDashboard = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex flex-col md:flex-row gap-8">
-        
+
         {/* Profile Sidebar */}
         <div className="w-full md:w-1/3 lg:w-1/4">
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 sticky top-24">
@@ -55,7 +55,7 @@ const StudentDashboard = () => {
               <p className="text-slate-500 flex items-center gap-1 mt-1 text-sm">
                 <Mail size={14} /> {user?.email}
               </p>
-              
+
               <div className="w-full mt-6 pt-6 border-t border-slate-100 text-left">
                 <h3 className="font-semibold text-slate-700 mb-2 flex items-center gap-2">
                   <User size={16} /> Bio
@@ -87,7 +87,7 @@ const StudentDashboard = () => {
             ) : (
               <div className="space-y-4">
                 {applications.map((app) => (
-                  <motion.div 
+                  <motion.div
                     key={app._id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}

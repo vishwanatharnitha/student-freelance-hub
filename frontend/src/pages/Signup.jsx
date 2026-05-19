@@ -25,7 +25,7 @@ const Signup = () => {
     setLoading(true);
 
     const result = await register(formData.name, formData.email, formData.password, formData.role);
-    
+
     if (result.success) {
       const userStr = localStorage.getItem('userInfo');
       if (userStr) {
@@ -42,7 +42,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-slate-50 px-4 py-8 sm:py-12">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10"
@@ -106,7 +106,7 @@ const Signup = () => {
                 <span className={`font-bold ${formData.role === 'student' ? 'text-primary-700' : 'text-slate-600'}`}>Student</span>
                 <span className="text-xs text-slate-500 mt-1">Looking for work</span>
               </label>
-              
+
               <label className={`cursor-pointer border-2 rounded-xl p-4 flex flex-col items-center text-center transition-all ${formData.role === 'client' ? 'border-primary-500 bg-primary-50' : 'border-slate-200 hover:border-primary-200'}`}>
                 <input type="radio" name="role" value="client" className="sr-only" checked={formData.role === 'client'} onChange={handleChange} />
                 <span className={`font-bold ${formData.role === 'client' ? 'text-primary-700' : 'text-slate-600'}`}>Client</span>

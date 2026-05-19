@@ -24,23 +24,23 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/jobs" element={<Jobs />} />
-              
-              <Route 
-                path="/student-dashboard" 
+
+              <Route
+                path="/student-dashboard"
                 element={
                   <ProtectedRoute allowedRoles={['student']}>
                     <StudentDashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/client-dashboard" 
+
+              <Route
+                path="/client-dashboard"
                 element={
                   <ProtectedRoute allowedRoles={['client']}>
                     <ClientDashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
             </Routes>
           </main>

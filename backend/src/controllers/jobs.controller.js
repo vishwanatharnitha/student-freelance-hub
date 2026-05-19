@@ -26,11 +26,11 @@ export const getJobs = async (req, res) => {
   try {
     const keyword = req.query.keyword
       ? {
-          title: {
-            $regex: req.query.keyword,
-            $options: 'i',
-          },
-        }
+        title: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
       : {};
 
     const category = req.query.category ? { category: req.query.category } : {};
@@ -94,7 +94,7 @@ export const getJobs = async (req, res) => {
           createdAt: new Date().toISOString()
         }
       ];
-      
+
       // If keyword or category is present, try to filter the fallback jobs
       let filteredFallback = fallbackJobs;
       if (req.query.keyword) {
@@ -103,7 +103,7 @@ export const getJobs = async (req, res) => {
       if (req.query.category) {
         filteredFallback = filteredFallback.filter(job => job.category === req.query.category);
       }
-      
+
       return res.json(filteredFallback);
     }
 

@@ -34,8 +34,8 @@ const Jobs = () => {
     }
   };
 
-  const filteredJobs = jobs.filter(job => 
-    job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredJobs = jobs.filter(job =>
+    job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -45,10 +45,10 @@ const Jobs = () => {
       navigate('/login');
       return;
     }
-    
+
     setApplyLoading(true);
     setApplyError('');
-    
+
     try {
       await API.post(`/jobs/${selectedJob._id}/apply`, { coverLetter });
       setApplySuccess(true);
@@ -67,12 +67,12 @@ const Jobs = () => {
   return (
     <div className="bg-slate-50 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header & Search */}
         <div className="mb-8 sm:mb-10 text-center max-w-2xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 sm:mb-4 tracking-tight">Find Freelance Work</h1>
           <p className="text-slate-600 mb-6 sm:mb-8 text-base sm:text-lg">Browse thousands of opportunities perfect for students.</p>
-          
+
           <div className="relative flex items-center w-full max-w-xl mx-auto">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-slate-400" />
@@ -95,7 +95,7 @@ const Jobs = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredJobs.map((job) => (
-              <motion.div 
+              <motion.div
                 key={job._id}
                 whileHover={{ y: -4 }}
                 className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col h-full"
@@ -108,9 +108,9 @@ const Jobs = () => {
                     {job.category}
                   </span>
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-slate-900 mb-2 line-clamp-2">{job.title}</h3>
-                
+
                 <div className="flex flex-wrap gap-y-2 gap-x-4 mb-4 text-sm font-medium text-slate-600">
                   <div className="flex items-center gap-1">
                     <DollarSign size={16} className="text-slate-400" />
@@ -121,29 +121,28 @@ const Jobs = () => {
                     <span>{new Date(job.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
-                
+
                 <p className="text-slate-500 text-sm line-clamp-3 mb-6 flex-grow">
                   {job.description}
                 </p>
-                
+
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs font-medium text-slate-500 flex items-center gap-1">
                     By {job.client?.name || 'Unknown Client'}
                   </span>
-                  <button 
+                  <button
                     onClick={() => {
-                      if(!user) {
+                      if (!user) {
                         navigate('/login');
                       } else if (user.role === 'student') {
                         setSelectedJob(job);
                       }
                     }}
                     disabled={user?.role === 'client'}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
-                      user?.role === 'client' 
-                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
+                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${user?.role === 'client'
+                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                         : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-500/20 hover:shadow-lg'
-                    }`}
+                      }`}
                   >
                     {user?.role === 'client' ? 'Clients cannot apply' : 'Apply Now'}
                   </button>
@@ -152,7 +151,7 @@ const Jobs = () => {
             ))}
           </div>
         )}
-        
+
         {!loading && filteredJobs.length === 0 && (
           <div className="text-center py-20">
             <p className="text-slate-500 text-lg">No jobs found matching your search.</p>
@@ -163,7 +162,7 @@ const Jobs = () => {
       {/* Application Modal */}
       {selectedJob && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-3xl shadow-2xl max-w-lg w-[95%] sm:w-full max-h-[90vh] overflow-y-auto"
@@ -174,7 +173,7 @@ const Jobs = () => {
                   <h2 className="text-2xl font-bold text-slate-900">Apply for Job</h2>
                   <p className="text-slate-500 mt-1">{selectedJob.title}</p>
                 </div>
-                <button 
+                <button
                   onClick={() => setSelectedJob(null)}
                   className="p-2 bg-slate-100 text-slate-500 hover:bg-slate-200 rounded-full transition-colors"
                 >
@@ -197,7 +196,7 @@ const Jobs = () => {
                       {applyError}
                     </div>
                   )}
-                  
+
                   <div className="mb-6">
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Cover Letter</label>
                     <textarea
@@ -209,7 +208,7 @@ const Jobs = () => {
                       onChange={(e) => setCoverLetter(e.target.value)}
                     ></textarea>
                   </div>
-                  
+
                   <div className="flex justify-end gap-3">
                     <button
                       type="button"

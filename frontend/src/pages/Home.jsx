@@ -11,7 +11,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-grid-slate-100/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -19,7 +19,7 @@ const Home = () => {
             >
               Where Student Talent Meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-indigo-600">Opportunity</span>
             </motion.h1>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -27,7 +27,7 @@ const Home = () => {
             >
               The premium marketplace for students to showcase their skills and clients to find top-tier university talent for their next big project.
             </motion.p>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -54,19 +54,19 @@ const Home = () => {
             <h2 className="text-3xl font-bold text-slate-900">Why choose Student Freelance Hub?</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-10">
-            <FeatureCard 
+            <FeatureCard
               to="/signup"
               icon={<Code className="h-10 w-10 text-primary-500" />}
               title="Build Your Portfolio"
               description="Take on real-world projects, gain experience, and build a stunning portfolio while you study."
             />
-            <FeatureCard 
+            <FeatureCard
               to="/signup"
               icon={<Briefcase className="h-10 w-10 text-indigo-500" />}
               title="Find Quality Talent"
               description="Access a pool of motivated, skilled students ready to bring fresh perspectives to your business."
             />
-            <FeatureCard 
+            <FeatureCard
               to="/jobs"
               icon={<Zap className="h-10 w-10 text-amber-500" />}
               title="Secure & Fast"
@@ -82,7 +82,7 @@ const Home = () => {
 const FeatureCard = ({ icon, title, description, to }) => {
   return (
     <Link to={to} className="block h-full">
-      <motion.div 
+      <motion.div
         whileHover={{ y: -5 }}
         className="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full cursor-pointer"
       >
