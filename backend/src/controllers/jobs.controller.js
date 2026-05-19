@@ -1,5 +1,6 @@
 import Job from '../models/Job.js';
 import Application from '../models/Application.js';
+import User from '../models/User.js';
 
 // Create a new job (Client only)
 export const createJob = async (req, res) => {
@@ -35,76 +36,171 @@ export const getJobs = async (req, res) => {
 
     const category = req.query.category ? { category: req.query.category } : {};
 
-    const jobs = await Job.find({ ...keyword, ...category }).populate('client', 'name avatar');
+    let jobs = await Job.find({ ...keyword, ...category }).populate('client', 'name avatar');
 
-    if (jobs.length === 0) {
-      const fallbackJobs = [
+    // Auto-seed database if empty (Server-side seeder fallback)
+    if (jobs.length === 0 && !req.query.keyword && !req.query.category) {
+      console.log('Database empty, auto-seeding jobs from server...');
+      
+      let dummyClient = await User.findOne({ email: 'seed_client@example.com' });
+      if (!dummyClient) {
+        dummyClient = await User.create({
+          name: 'TechStartup Inc.',
+          email: 'seed_client@example.com',
+          password: 'password123',
+          role: 'client',
+          bio: 'We are a fast-growing tech startup.',
+        });
+      }
+
+      const clientId = dummyClient._id;
+
+      const sampleJobs = [
         {
-          _id: 'fallback_1',
           title: 'Full-Stack Web App Development (React & Node.js)',
           description: 'Looking for a talented student developer to build a modern SaaS application from scratch. Must have experience with React, Tailwind CSS, Node.js, and MongoDB. The project involves creating a dashboard, integrating Stripe payments, and implementing user authentication.',
           budget: 1500,
           category: 'Development',
-          client: { name: 'TechStartup Inc.' },
-          createdAt: new Date().toISOString()
+          client: clientId,
         },
         {
-          _id: 'fallback_2',
           title: 'UI/UX Design for E-commerce Mobile App',
           description: 'We need a creative designer to revamp our existing e-commerce app. The ideal candidate should have a strong portfolio demonstrating modern, clean, and intuitive mobile interfaces. Deliverables include high-fidelity Figma mockups and an interactive prototype.',
           budget: 800,
           category: 'Design',
-          client: { name: 'RetailFlow' },
-          createdAt: new Date().toISOString()
+          client: clientId,
         },
         {
-          _id: 'fallback_3',
           title: 'Video Editing for Tech YouTube Channel',
           description: 'Seeking a skilled video editor for a growing tech review channel. You will be responsible for editing 10-15 minute videos, adding motion graphics, sound design, and color grading. Premiere Pro or DaVinci Resolve preferred.',
           budget: 450,
           category: 'Video Editing',
-          client: { name: 'TechReviewer' },
-          createdAt: new Date().toISOString()
+          client: clientId,
         },
         {
-          _id: 'fallback_4',
           title: 'SEO Optimized Content Writing for Tech Blog',
           description: 'We are looking for a freelance writer to produce high-quality, SEO-optimized articles about artificial intelligence, web development, and cloud computing. Need 4 articles (1500 words each) per month.',
           budget: 300,
           category: 'Writing',
-          client: { name: 'DevWeekly' },
-          createdAt: new Date().toISOString()
+          client: clientId,
         },
         {
-          _id: 'fallback_5',
           title: 'Social Media Management for Indie Game Studio',
           description: 'Help us grow our community! We need a social media manager to create engaging content, schedule posts, and interact with our audience on Twitter, Instagram, and TikTok for our upcoming indie game launch.',
           budget: 600,
           category: 'Marketing',
-          client: { name: 'PixelForge Games' },
-          createdAt: new Date().toISOString()
+          client: clientId,
         },
         {
-          _id: 'fallback_6',
           title: 'Python Scripting for Data Automation',
           description: 'Need a student to write a Python script that automates data extraction from several APIs, processes the data, and generates a weekly PDF report. Experience with Pandas and ReportLab is a plus.',
           budget: 250,
-          category: 'Data Science',
-          client: { name: 'AnalyticsPro' },
-          createdAt: new Date().toISOString()
+          category: 'Development',
+          client: clientId,
+        },
+        {
+          title: 'React Native Developer for Fitness App MVP',
+          description: 'Looking for a React Native developer to build the Minimum Viable Product (MVP) of a new fitness tracking app. Will involve integrating with phone sensors, building workout UI, and communicating with a Firebase backend.',
+          budget: 2000,
+          category: 'Development',
+          client: clientId,
+        },
+        {
+          title: 'Logo and Brand Identity Design for Startup',
+          description: 'We need a complete brand identity package including a logo, color palette, typography guidelines, and social media templates for a new eco-friendly packaging company.',
+          budget: 500,
+          category: 'Design',
+          client: clientId,
+        },
+        {
+          title: 'Copywriter for Landing Page Conversion Optimization',
+          description: 'Our current landing page has a low conversion rate. We need an experienced copywriter to rewrite the headline, benefits, and call-to-actions to maximize signups for our SaaS product.',
+          budget: 350,
+          category: 'Writing',
+          client: clientId,
+        },
+        {
+          title: '3D Animator for Short Product Explainer',
+          description: 'Need a 30-second 3D animation showing how our new smart home device works. Must be proficient in Blender or Maya. We will provide the CAD models and storyboard.',
+          budget: 1200,
+          category: 'Video Editing',
+          client: clientId,
+        },
+        {
+          title: 'Data Analyst for Customer Churn Prediction',
+          description: 'Seeking a student with machine learning experience to analyze our customer dataset and build a model to predict churn. Please be comfortable with Jupyter Notebooks, scikit-learn, and providing actionable insights.',
+          budget: 900,
+          category: 'Development',
+          client: clientId,
+        },
+        {
+          title: 'Virtual Assistant for Email Management & Scheduling',
+          description: 'Looking for a highly organized student to act as a part-time virtual assistant. Responsibilities include sorting emails, scheduling meetings, and basic data entry. ~10 hours per week.',
+          budget: 200,
+          category: 'Marketing',
+          client: clientId,
+        },
+        {
+          title: 'Shopify Store Setup and Customization',
+          description: 'Need help setting up a new Shopify store for a clothing brand. Involves installing a premium theme, customizing the layout, uploading 50 products, and configuring payment gateways.',
+          budget: 650,
+          category: 'Development',
+          client: clientId,
+        },
+        {
+          title: 'Illustration for Childrens Book (10 pages)',
+          description: 'We are publishing a short children\'s book and need a talented illustrator to create 10 full-color, whimsical illustrations based on our manuscript. Style should be soft and friendly.',
+          budget: 1000,
+          category: 'Design',
+          client: clientId,
+        },
+        {
+          title: 'Cybersecurity Audit for Small Business Website',
+          description: 'Looking for a student studying cybersecurity to perform a vulnerability assessment on our WordPress website and provide a report on how to secure it against common attacks (SQLi, XSS, etc.).',
+          budget: 400,
+          category: 'Development',
+          client: clientId,
+        },
+        {
+          title: 'Translation Services (English to Spanish)',
+          description: 'We need to translate our software documentation from English to Spanish. Approximately 5,000 words. Must be fluent in technical terminology for both languages.',
+          budget: 250,
+          category: 'Writing',
+          client: clientId,
+        },
+        {
+          title: 'TikTok Content Creator / Presenter',
+          description: 'Looking for a charismatic student to be the face of our brand on TikTok. We will provide scripts and ideas, you will record and lightly edit 3 short videos per week.',
+          budget: 450,
+          category: 'Marketing',
+          client: clientId,
+        },
+        {
+          title: 'Smart Contract Developer (Solidity)',
+          description: 'Need a developer to write a basic ERC-20 token smart contract with some custom vesting logic. Must have experience with Hardhat or Truffle and writing unit tests for smart contracts.',
+          budget: 1800,
+          category: 'Development',
+          client: clientId,
+        },
+        {
+          title: 'Podcast Audio Editor and Mixer',
+          description: 'Seeking an audio engineer student to edit our weekly 45-minute interview podcast. Tasks include removing background noise, leveling audio, cutting out filler words, and adding intro/outro music.',
+          budget: 300,
+          category: 'Video Editing',
+          client: clientId,
+        },
+        {
+          title: 'Go/Golang Microservice Developer',
+          description: 'Looking for someone to rewrite a slow Node.js microservice in Go for better performance. The service processes incoming webhooks and queues them in Redis.',
+          budget: 1100,
+          category: 'Development',
+          client: clientId,
         }
       ];
 
-      // If keyword or category is present, try to filter the fallback jobs
-      let filteredFallback = fallbackJobs;
-      if (req.query.keyword) {
-        filteredFallback = filteredFallback.filter(job => job.title.toLowerCase().includes(req.query.keyword.toLowerCase()));
-      }
-      if (req.query.category) {
-        filteredFallback = filteredFallback.filter(job => job.category === req.query.category);
-      }
-
-      return res.json(filteredFallback);
+      await Job.insertMany(sampleJobs);
+      // Re-fetch jobs after seeding
+      jobs = await Job.find({ ...keyword, ...category }).populate('client', 'name avatar');
     }
 
     res.json(jobs);
