@@ -10,7 +10,7 @@ const ClientDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('jobs');
-  
+
   // Applications Modal State
   const [selectedJob, setSelectedJob] = useState(null);
   const [jobApplications, setJobApplications] = useState([]);
@@ -77,7 +77,7 @@ const ClientDashboard = () => {
     try {
       await API.put(`/jobs/applications/${appId}`, { status });
       // Update local state
-      setJobApplications(jobApplications.map(app => 
+      setJobApplications(jobApplications.map(app =>
         app._id === appId ? { ...app, status } : app
       ));
     } catch (error) {
@@ -232,14 +232,14 @@ const ClientDashboard = () => {
                   {job.description}
                 </p>
                 <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                  <button 
+                  <button
                     onClick={() => handleViewApplications(job)}
                     className="flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600 transition-colors"
                   >
                     <Users size={16} />
                     <span>View applicants</span>
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleViewApplications(job)}
                     className="text-primary-600 font-medium hover:text-primary-700 text-sm transition-colors"
                   >
@@ -273,11 +273,10 @@ const ClientDashboard = () => {
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <span className="font-bold text-slate-900">${order.price}</span>
-                    <div className={`px-3 py-1.5 rounded-full text-sm font-medium border capitalize ${
-                      order.status === 'completed' ? 'text-green-600 bg-green-50 border-green-200' :
-                      order.status === 'rejected' ? 'text-red-600 bg-red-50 border-red-200' :
-                      'text-amber-600 bg-amber-50 border-amber-200'
-                    }`}>
+                    <div className={`px-3 py-1.5 rounded-full text-sm font-medium border capitalize ${order.status === 'completed' ? 'text-green-600 bg-green-50 border-green-200' :
+                        order.status === 'rejected' ? 'text-red-600 bg-red-50 border-red-200' :
+                          'text-amber-600 bg-amber-50 border-amber-200'
+                      }`}>
                       {order.status}
                     </div>
                   </div>
@@ -333,15 +332,14 @@ const ClientDashboard = () => {
                             <p className="text-xs text-slate-500">{app.student?.email}</p>
                           </div>
                         </div>
-                        <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wide ${
-                          app.status === 'accepted' ? 'bg-green-100 text-green-700' :
-                          app.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                          'bg-amber-100 text-amber-700'
-                        }`}>
+                        <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wide ${app.status === 'accepted' ? 'bg-green-100 text-green-700' :
+                            app.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                              'bg-amber-100 text-amber-700'
+                          }`}>
                           {app.status}
                         </span>
                       </div>
-                      
+
                       <div className="bg-slate-50 p-4 rounded-xl mb-5 text-sm text-slate-700 whitespace-pre-wrap border border-slate-100">
                         {app.coverLetter}
                       </div>

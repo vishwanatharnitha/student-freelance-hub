@@ -9,7 +9,7 @@ const connectDB = async () => {
     console.log('Using existing MongoDB connection');
     return cachedDb;
   }
-  
+
   if (mongoose.connection.readyState >= 1) {
     cachedDb = mongoose.connection;
     return cachedDb;

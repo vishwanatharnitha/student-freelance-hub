@@ -12,7 +12,7 @@ const Gigs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [category, setCategory] = useState('');
-  
+
   const [showForm, setShowForm] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const Gigs = () => {
   const fetchGigs = async () => {
     setLoading(true);
     try {
-      const url = category && category !== 'All' 
+      const url = category && category !== 'All'
         ? `http://localhost:5000/api/gigs?category=${category}`
         : `http://localhost:5000/api/gigs`;
       const { data } = await axios.get(url);
@@ -46,7 +46,7 @@ const Gigs = () => {
 
   const handlePostGig = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.title.trim() || !formData.description.trim() || !formData.category || !formData.price || Number(formData.price) <= 0) {
       alert('Please fill out all required fields with valid information.');
       return;
@@ -55,13 +55,13 @@ const Gigs = () => {
     setSubmitLoading(true);
     try {
       const skillsArray = formData.skills.split(',').map(s => s.trim()).filter(Boolean);
-      
+
       const { data } = await API.post('/gigs', {
         ...formData,
         price: Number(formData.price),
         skills: skillsArray
       });
-      
+
       setShowForm(false);
       setFormData({ title: '', description: '', category: 'Design', price: '', skills: '' });
       setGigs([data, ...gigs]);
@@ -80,7 +80,7 @@ const Gigs = () => {
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Freelance Gigs</h1>
           <p className="text-slate-600">Find affordable services offered by talented students.</p>
         </div>
-        
+
         {user && (user.role === 'student' || user.role === 'client') && (
           <button
             onClick={() => setShowForm(!showForm)}
@@ -196,11 +196,10 @@ const Gigs = () => {
               <button
                 key={c}
                 onClick={() => setCategory(c)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all ${
-                  (category === c || (!category && c === 'All'))
+                className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all ${(category === c || (!category && c === 'All'))
                     ? 'bg-primary-600 text-white shadow-md'
                     : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
-                }`}
+                  }`}
               >
                 {c}
               </button>
@@ -227,7 +226,7 @@ const Gigs = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {gigs.map((gig, index) => (
+          {gigs.filter(gig => gig.seller && gig.title && gig.price).map((gig, index) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

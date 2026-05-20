@@ -41,7 +41,7 @@ export const getJobs = async (req, res) => {
     // Auto-seed database if empty (Server-side seeder fallback)
     if (jobs.length === 0 && !req.query.keyword && !req.query.category) {
       console.log('Database empty, auto-seeding jobs from server...');
-      
+
       let dummyClient = await User.findOne({ email: 'seed_client@example.com' });
       if (!dummyClient) {
         dummyClient = await User.create({

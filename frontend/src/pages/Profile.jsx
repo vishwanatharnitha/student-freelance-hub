@@ -17,12 +17,12 @@ const Profile = () => {
     // Let's implement a quick fetch for gigs by this seller to populate the page.
     const fetchProfileAndGigs = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/gigs?seller=${id}`); 
+        const { data } = await axios.get(`http://localhost:5000/api/gigs?seller=${id}`);
         // We need to fetch user separately, wait, I didn't create a GET /users/:id endpoint.
         // Let's use the gigs data if available, otherwise it's just a placeholder.
         // For a true profile, we'd need a user endpoint. Let's mock the user data from the first gig.
         if (data.gigs && data.gigs.length > 0) {
-            setProfileData(data.gigs[0].seller);
+          setProfileData(data.gigs[0].seller);
         }
         setUserGigs(data.gigs || []);
       } catch (err) {
@@ -43,7 +43,7 @@ const Profile = () => {
   }
 
   if (error && !profileData) {
-     return (
+    return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
         <div className="bg-red-50 text-red-600 p-8 rounded-2xl flex flex-col items-center">
           <AlertCircle className="h-12 w-12 mb-4" />
@@ -91,12 +91,12 @@ const Profile = () => {
                   Skills
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                   {/* In a real app, skills come from user model, here we mock from gigs */}
-                   {userGigs.flatMap(g => g.skills).filter((v, i, a) => a.indexOf(v) === i).slice(0,10).map((skill, index) => (
+                  {/* In a real app, skills come from user model, here we mock from gigs */}
+                  {userGigs.flatMap(g => g.skills).filter((v, i, a) => a.indexOf(v) === i).slice(0, 10).map((skill, index) => (
                     <span key={index} className="px-3 py-1 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium">
                       {skill}
                     </span>
-                   )) || <span className="text-slate-500 text-sm">No skills listed</span>}
+                  )) || <span className="text-slate-500 text-sm">No skills listed</span>}
                 </div>
               </div>
             </div>

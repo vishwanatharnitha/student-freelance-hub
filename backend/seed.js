@@ -16,7 +16,7 @@ const seedJobs = async () => {
     // Clear existing data
     await Job.deleteMany({});
     await Application.deleteMany({});
-    
+
     // Create a dummy client to act as the job poster
     // First remove if exists
     await User.deleteOne({ email: 'seed_client@example.com' });

@@ -146,7 +146,7 @@ const StudentDashboard = () => {
                         <div>
                           <h3 className="font-bold text-lg text-slate-900">{order.gig?.title || 'Gig Deleted'}</h3>
                           <p className="text-slate-500 text-sm mt-1">
-                            {order.buyer?._id === user._id 
+                            {order.buyer?._id === user._id
                               ? `Purchased from ${order.seller?.name}`
                               : `Ordered by ${order.buyer?.name}`}
                           </p>

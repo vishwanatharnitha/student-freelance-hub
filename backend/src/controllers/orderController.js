@@ -6,19 +6,28 @@ import Gig from '../models/Gig.js';
 // @access  Private
 export const createOrder = async (req, res) => {
   try {
+    console.log('--- Incoming Order Request ---');
+    console.log('Body:', req.body);
+    console.log('User:', req.user._id);
+
     const { gigId, notes } = req.body;
-    
-    const gig = await Gig.findById(gigId);
-    
-    if (!gig) {
-      return res.status(404).json({ message: 'Gig not found' });
+
+    if (!gigId) {
+      return res.status(400).json({ message: 'Missing gigId in request body' });
     }
-    
+
+    const gig = await Gig.findById(gigId);
+    console.log('Gig Found?', gig ? 'Yes' : 'No');
+
+    if (!gig) {
+      return res.status(404).json({ message: `Gig not found in database for ID: ${gigId}` });
+    }
+
     // Prevent ordering own gig
     if (gig.seller.toString() === req.user._id.toString()) {
       return res.status(400).json({ message: 'You cannot order your own gig' });
     }
-    
+
     const order = new Order({
       gig: gig._id,
       buyer: req.user._id,
@@ -26,7 +35,7 @@ export const createOrder = async (req, res) => {
       price: gig.price,
       notes: notes || ''
     });
-    
+
     const createdOrder = await order.save();
     res.status(201).json(createdOrder);
   } catch (error) {
@@ -48,7 +57,7 @@ export const getMyOrders = async (req, res) => {
       .populate('buyer', 'name avatar email')
       .populate('seller', 'name avatar email')
       .sort({ createdAt: -1 });
-      
+
     res.json(orders);
   } catch (error) {
     console.error(error);
@@ -63,24 +72,24 @@ export const updateOrderStatus = async (req, res) => {
   try {
     const { status } = req.body;
     const order = await Order.findById(req.params.id);
-    
+
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
-    
+
     // Ensure only seller can accept/reject/complete, buyer could potentially cancel if pending (keeping it simple: only seller updates status)
     if (order.seller.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: 'Not authorized to update this order' });
     }
-    
+
     const validStatuses = ['pending', 'accepted', 'rejected', 'completed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }
-    
+
     order.status = status;
     const updatedOrder = await order.save();
-    
+
     res.json(updatedOrder);
   } catch (error) {
     console.error(error);

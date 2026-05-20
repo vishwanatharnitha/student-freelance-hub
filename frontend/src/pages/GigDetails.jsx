@@ -40,7 +40,7 @@ const GigDetails = () => {
     setOrderLoading(true);
     setOrderError(null);
     try {
-      await API.post('/orders/create', { gigId: id, notes });
+      await API.post('/orders/create', { gigId: gig._id, notes });
       setOrderSuccess(true);
     } catch (err) {
       setOrderError(err.response?.data?.message || 'Failed to place order.');
@@ -73,8 +73,8 @@ const GigDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <button 
-        onClick={() => navigate('/gigs')} 
+      <button
+        onClick={() => navigate('/gigs')}
         className="flex items-center text-slate-500 hover:text-slate-800 font-medium mb-8 transition-colors"
       >
         <ArrowLeft className="w-5 h-5 mr-2" />
@@ -90,9 +90,9 @@ const GigDetails = () => {
               </span>
               <span className="text-3xl font-bold text-slate-900">${gig.price}</span>
             </div>
-            
+
             <h1 className="text-3xl font-bold text-slate-900 mb-6">{gig.title}</h1>
-            
+
             <div className="prose prose-slate max-w-none mb-8">
               <h3 className="text-xl font-semibold mb-3">About this gig</h3>
               <p className="text-slate-600 whitespace-pre-wrap leading-relaxed">{gig.description}</p>
