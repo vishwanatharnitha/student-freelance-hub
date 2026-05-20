@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Search, Filter, Star, Loader2, Plus, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext';
@@ -29,12 +28,12 @@ const Gigs = () => {
     setLoading(true);
     try {
       const baseUrl = category && category !== 'All' 
-        ? `http://localhost:5000/api/gigs?category=${category}`
-        : `http://localhost:5000/api/gigs`;
+        ? `/gigs?category=${category}`
+        : `/gigs`;
         
       const url = baseUrl + (baseUrl.includes('?') ? '&' : '?') + `t=${new Date().getTime()}`;
       
-      const { data } = await axios.get(url);
+      const { data } = await API.get(url);
       setGigs(data.gigs);
       setError(null);
     } catch (err) {

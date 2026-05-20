@@ -6,9 +6,17 @@ const API = axios.create({
 
 API.interceptors.request.use((req) => {
   const userInfo = localStorage.getItem('userInfo');
-  if (userInfo) {
-    const parsedInfo = JSON.parse(userInfo);
-    req.headers.Authorization = `Bearer ${parsedInfo.token}`;
+  if (userInfo && userInfo !== 'undefined') {
+    try {
+      const parsedInfo = JSON.parse(userInfo);
+      if (parsedInfo?.token) {
+        req.headers.Authorization = `Bearer ${parsedInfo.token}`;
+      }
+    } catch (e) {
+      console.error('Failed to parse userInfo for auth token', e);
+      // Clean up corrupted storage
+      localStorage.removeItem('userInfo');
+    }
   }
   return req;
 });
