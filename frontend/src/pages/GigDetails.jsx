@@ -116,17 +116,17 @@ const GigDetails = () => {
         <div className="space-y-6">
           <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm sticky top-24">
             <h3 className="text-xl font-bold text-slate-900 mb-6">About the Seller</h3>
-            <Link to={`/profile/${gig.seller?._id}`} className="flex items-center gap-4 mb-6 group">
+            <Link to={gig.seller?._id ? `/profile/${gig.seller._id}` : '#'} className="flex items-center gap-4 mb-6 group">
               <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl overflow-hidden border-2 border-white shadow-md group-hover:border-primary-200 transition-all">
                 {gig.seller?.avatar ? (
-                  <img src={gig.seller.avatar} alt={gig.seller.name} className="w-full h-full object-cover" />
+                  <img src={gig.seller.avatar} alt={gig.seller?.name || 'User'} className="w-full h-full object-cover" />
                 ) : (
-                  gig.seller?.name?.charAt(0).toUpperCase()
+                  (gig.seller?.name || 'U').charAt(0).toUpperCase()
                 )}
               </div>
               <div>
                 <p className="font-bold text-lg text-slate-900 group-hover:text-primary-600 transition-colors">
-                  {gig.seller?.name}
+                  {gig.seller?.name || 'Unknown User'}
                 </p>
                 <div className="flex items-center gap-1 text-sm text-slate-500">
                   <Star className="w-4 h-4 text-yellow-400 fill-current" />

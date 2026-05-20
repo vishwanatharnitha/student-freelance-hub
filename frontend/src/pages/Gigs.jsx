@@ -46,6 +46,12 @@ const Gigs = () => {
 
   const handlePostGig = async (e) => {
     e.preventDefault();
+    
+    if (!formData.title.trim() || !formData.description.trim() || !formData.category || !formData.price || Number(formData.price) <= 0) {
+      alert('Please fill out all required fields with valid information.');
+      return;
+    }
+
     setSubmitLoading(true);
     try {
       const skillsArray = formData.skills.split(',').map(s => s.trim()).filter(Boolean);
@@ -243,30 +249,30 @@ const Gigs = () => {
                   {gig.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-auto">
-                  {gig.skills.slice(0, 3).map((skill, i) => (
+                  {(gig.skills || []).slice(0, 3).map((skill, i) => (
                     <span key={i} className="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium">
                       {skill}
                     </span>
                   ))}
-                  {gig.skills.length > 3 && (
+                  {(gig.skills || []).length > 3 && (
                     <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium">
-                      +{gig.skills.length - 3}
+                      +{(gig.skills || []).length - 3}
                     </span>
                   )}
                 </div>
               </div>
               <div className="px-6 py-4 border-t border-slate-50 bg-slate-50/50 flex items-center justify-between">
-                <Link to={`/profile/${gig.seller?._id}`} className="flex items-center gap-3 group/user">
+                <Link to={gig.seller?._id ? `/profile/${gig.seller._id}` : '#'} className="flex items-center gap-3 group/user">
                   <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold overflow-hidden border-2 border-white shadow-sm group-hover/user:border-primary-200 transition-all">
                     {gig.seller?.avatar ? (
-                      <img src={gig.seller.avatar} alt={gig.seller.name} className="w-full h-full object-cover" />
+                      <img src={gig.seller.avatar} alt={gig.seller?.name || 'User'} className="w-full h-full object-cover" />
                     ) : (
-                      gig.seller?.name?.charAt(0).toUpperCase()
+                      (gig.seller?.name || 'U').charAt(0).toUpperCase()
                     )}
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-slate-900 group-hover/user:text-primary-600 transition-colors">
-                      {gig.seller?.name}
+                      {gig.seller?.name || 'Unknown User'}
                     </p>
                     <div className="flex items-center gap-1 text-xs text-slate-500">
                       <Star className="w-3 h-3 text-yellow-400 fill-current" />
