@@ -28,9 +28,12 @@ const Gigs = () => {
   const fetchGigs = async () => {
     setLoading(true);
     try {
-      const url = category && category !== 'All'
+      const baseUrl = category && category !== 'All' 
         ? `http://localhost:5000/api/gigs?category=${category}`
         : `http://localhost:5000/api/gigs`;
+        
+      const url = baseUrl + (baseUrl.includes('?') ? '&' : '?') + `t=${new Date().getTime()}`;
+      
       const { data } = await axios.get(url);
       setGigs(data.gigs);
       setError(null);

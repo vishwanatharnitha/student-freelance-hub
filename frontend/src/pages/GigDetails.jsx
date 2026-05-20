@@ -36,6 +36,10 @@ const GigDetails = () => {
       navigate('/login');
       return;
     }
+    if (!gig || !gig._id) {
+      setOrderError('Invalid gig details. Please refresh the page.');
+      return;
+    }
 
     setOrderLoading(true);
     setOrderError(null);
