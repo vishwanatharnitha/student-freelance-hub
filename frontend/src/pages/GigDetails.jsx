@@ -40,7 +40,7 @@ const GigDetails = () => {
     setOrderLoading(true);
     setOrderError(null);
     try {
-      await API.post('/orders/create', { gigId: gig._id, notes });
+      await API.post('/orders/create', { gigId: id, notes });
       setOrderSuccess(true);
     } catch (err) {
       setOrderError(err.response?.data?.message || 'Failed to place order.');

@@ -50,7 +50,7 @@ const Gigs = () => {
     try {
       const skillsArray = formData.skills.split(',').map(s => s.trim()).filter(Boolean);
       
-      await API.post('/gigs', {
+      const { data } = await API.post('/gigs', {
         ...formData,
         price: Number(formData.price),
         skills: skillsArray
@@ -58,6 +58,7 @@ const Gigs = () => {
       
       setShowForm(false);
       setFormData({ title: '', description: '', category: 'Design', price: '', skills: '' });
+      setGigs([data, ...gigs]);
       fetchGigs();
     } catch (err) {
       console.error('Error posting gig:', err);
