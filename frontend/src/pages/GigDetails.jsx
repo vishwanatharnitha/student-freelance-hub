@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ArrowLeft, Star, Clock, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import axios from 'axios';
 import API from '../services/api';
 
 const GigDetails = () => {
@@ -19,7 +20,7 @@ const GigDetails = () => {
   useEffect(() => {
     const fetchGig = async () => {
       try {
-        const { data } = await API.get(`/gigs/${id}`);
+        const { data } = await axios.get(`http://localhost:5000/api/gigs/${id}`);
         setGig(data);
       } catch (err) {
         setError('Failed to load gig details.');
