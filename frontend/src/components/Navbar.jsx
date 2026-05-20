@@ -25,6 +25,7 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/jobs" className="text-slate-600 hover:text-primary-600 transition-colors font-medium">Jobs</Link>
+            <Link to="/gigs" className="text-slate-600 hover:text-primary-600 transition-colors font-medium">Gigs</Link>
 
             {user ? (
               <>
@@ -79,6 +80,13 @@ const Navbar = () => {
               className="block px-3 py-3 rounded-xl text-base font-medium text-slate-700 hover:text-primary-600 hover:bg-slate-50"
             >
               Jobs
+            </Link>
+            <Link
+              to="/gigs"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block px-3 py-3 rounded-xl text-base font-medium text-slate-700 hover:text-primary-600 hover:bg-slate-50"
+            >
+              Gigs
             </Link>
 
             {user ? (

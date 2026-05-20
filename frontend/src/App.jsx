@@ -11,6 +11,9 @@ import Signup from './pages/Signup';
 import Jobs from './pages/Jobs';
 import StudentDashboard from './pages/StudentDashboard';
 import ClientDashboard from './pages/ClientDashboard';
+import Gigs from './pages/Gigs';
+import GigDetails from './pages/GigDetails';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -24,7 +27,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/jobs" element={<Jobs />} />
-
+              <Route path="/gigs" element={<Gigs />} />
+              <Route path="/gigs/:id" element={<GigDetails />} />
+              <Route path="/profile/:id" element={<Profile />} />
               <Route
                 path="/student-dashboard"
                 element={

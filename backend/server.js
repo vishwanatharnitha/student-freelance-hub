@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/auth.routes.js';
 import jobRoutes from './src/routes/jobs.routes.js';
+import gigRoutes from './src/routes/gigs.routes.js';
+import orderRoutes from './src/routes/orders.routes.js';
 // import userRoutes from './src/routes/users.routes.js';
 
 dotenv.config();
@@ -28,6 +30,8 @@ app.use(async (req, res, next) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/gigs', gigRoutes);
+app.use('/api/orders', orderRoutes);
 // app.use('/api/users', userRoutes);
 
 // Basic Route

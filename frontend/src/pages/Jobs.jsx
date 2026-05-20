@@ -34,9 +34,9 @@ const Jobs = () => {
     }
   };
 
-  const filteredJobs = jobs.filter(job =>
-    job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredJobs = (Array.isArray(jobs) ? jobs : []).filter(job =>
+    (job.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (job.category || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleApply = async (e) => {

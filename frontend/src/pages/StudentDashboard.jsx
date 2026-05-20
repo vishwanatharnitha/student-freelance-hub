@@ -7,21 +7,27 @@ import { Briefcase, User, Mail, PlusCircle, CheckCircle, Clock, XCircle } from '
 const StudentDashboard = () => {
   const { user } = useContext(AuthContext);
   const [applications, setApplications] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('applications');
 
   useEffect(() => {
-    const fetchApplications = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await API.get('/jobs/my-applications');
-        setApplications(data);
+        const [appsRes, ordersRes] = await Promise.all([
+          API.get('/jobs/my-applications'),
+          API.get('/orders/my-orders').catch(() => ({ data: [] }))
+        ]);
+        setApplications(appsRes.data);
+        setOrders(ordersRes.data || []);
       } catch (error) {
-        console.error('Error fetching applications:', error);
+        console.error('Error fetching dashboard data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchApplications();
+    fetchData();
   }, []);
 
   const getStatusColor = (status) => {
@@ -71,41 +77,92 @@ const StudentDashboard = () => {
         {/* Main Content */}
         <div className="w-full md:w-2/3 lg:w-3/4">
           <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 mb-8">
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">My Applications</h1>
-            <p className="text-slate-500 mb-8">Track the status of your job applications</p>
+            <div className="flex space-x-6 border-b border-slate-200 mb-6">
+              <button
+                className={`pb-4 text-lg font-bold transition-colors ${activeTab === 'applications' ? 'text-primary-600 border-b-2 border-primary-600' : 'text-slate-500 hover:text-slate-800'}`}
+                onClick={() => setActiveTab('applications')}
+              >
+                Applications
+              </button>
+              <button
+                className={`pb-4 text-lg font-bold transition-colors ${activeTab === 'orders' ? 'text-primary-600 border-b-2 border-primary-600' : 'text-slate-500 hover:text-slate-800'}`}
+                onClick={() => setActiveTab('orders')}
+              >
+                Orders (Gigs)
+              </button>
+            </div>
 
             {loading ? (
               <div className="flex justify-center py-10">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
               </div>
-            ) : applications.length === 0 ? (
-              <div className="text-center py-16 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                <Briefcase className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-slate-900 mb-1">No applications yet</h3>
-                <p className="text-slate-500">You haven't applied to any jobs.</p>
-              </div>
+            ) : activeTab === 'applications' ? (
+              applications.length === 0 ? (
+                <div className="text-center py-16 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                  <Briefcase className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-slate-900 mb-1">No applications yet</h3>
+                  <p className="text-slate-500">You haven't applied to any jobs.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {applications.map((app) => (
+                    <motion.div
+                      key={app._id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow bg-slate-50"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                          <h3 className="font-bold text-lg text-slate-900">{app.job?.title || 'Job Deleted'}</h3>
+                          <p className="text-slate-500 text-sm mt-1">Applied on {new Date(app.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(app.status)}`}>
+                          {getStatusIcon(app.status)}
+                          <span className="capitalize">{app.status}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )
             ) : (
-              <div className="space-y-4">
-                {applications.map((app) => (
-                  <motion.div
-                    key={app._id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow bg-slate-50"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                      <div>
-                        <h3 className="font-bold text-lg text-slate-900">{app.job?.title || 'Job Deleted'}</h3>
-                        <p className="text-slate-500 text-sm mt-1">Applied on {new Date(app.createdAt).toLocaleDateString()}</p>
+              orders.length === 0 ? (
+                <div className="text-center py-16 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                  <Briefcase className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-slate-900 mb-1">No orders yet</h3>
+                  <p className="text-slate-500">You haven't placed or received any gig orders.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {orders.map((order) => (
+                    <motion.div
+                      key={order._id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow bg-slate-50"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                          <h3 className="font-bold text-lg text-slate-900">{order.gig?.title || 'Gig Deleted'}</h3>
+                          <p className="text-slate-500 text-sm mt-1">
+                            {order.buyer?._id === user._id 
+                              ? `Purchased from ${order.seller?.name}`
+                              : `Ordered by ${order.buyer?.name}`}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          <span className="font-bold text-slate-900">${order.price}</span>
+                          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(order.status)}`}>
+                            {getStatusIcon(order.status)}
+                            <span className="capitalize">{order.status}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(app.status)}`}>
-                        {getStatusIcon(app.status)}
-                        <span className="capitalize">{app.status}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )
             )}
           </div>
         </div>
